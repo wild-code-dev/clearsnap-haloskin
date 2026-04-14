@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ClearSnap — Acne-Free Photobooth</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>✨ ClearSnap</h1>
+        <p>Your flawless face start now</p>
+      </header>
+
+      <div class="camera-box">
+        <div class="camera-placeholder" id="placeholder">
+          📷<br />Press Start Camera
+        </div>
+        <video id="video" autoplay playsinline class="hidden"></video>
+        <canvas id="canvas" style="display: none"></canvas>
+      </div>
+
+      <div class="controls">
+        <button id="startBtn" onclick="startCamera()">📷 Start Camera</button>
+        <button
+          id="flipBtn"
+          class="btn-secondary"
+          onclick="flipCamera()"
+          disabled
+        >
+          🔄
+        </button>
+        <button id="snapBtn" onclick="takePhoto()" disabled>Take Photo</button>
+      </div>
+
+      <!-- Before/after slider (hidden until photo is retouched) -->
+      <div id="preview" class="preview hidden">
+        <h2>Drag to compare ↔</h2>
+
+        <div class="compare-box" id="compareBox">
+          <!-- After (retouched) sits at the bottom -->
+          <img id="afterImg" class="compare-img" alt="After" />
+          <!-- Before (original) clips on top -->
+          <div class="before-wrap" id="beforeWrap">
+            <img id="beforeImg" class="compare-img" alt="Before" />
+          </div>
+          <!-- Divider line + handle -->
+          <div class="divider" id="divider">
+            <div class="handle">◀▶</div>
+          </div>
+          <!-- Labels -->
+          <span class="label-before">Before</span>
+          <span class="label-after">After</span>
+        </div>
+
+        <div class="action-buttons">
+          <button onclick="retakePhoto()">↩ Retake</button>
+          <button id="downloadBtn" onclick="downloadPhoto()" disabled>⬇ Save Photo</button>
+        </div>
+        <button id="shareBtn" onclick="shareApp()">🔗 Share this app</button>
+        </div>
+
+        <p id="status" class="status"></p>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

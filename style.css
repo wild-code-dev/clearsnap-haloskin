@@ -1,0 +1,216 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, sans-serif;
+  background: #ffe8e8;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 24px 16px;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+header {
+  text-align: center;
+}
+header h1 {
+  font-size: 28px;
+  color: #3c3489;
+}
+header p {
+  color: #666;
+  margin-top: 4px;
+}
+
+.camera-box {
+  background: #1a1a2e;
+  border-radius: 20px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.camera-placeholder {
+  color: #666;
+  font-size: 14px;
+  text-align: center;
+}
+
+video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+}
+
+.controls {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  flex: 1;
+  padding: 14px;
+  border: none;
+  border-radius: 30px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  background: #ff3a5e;
+  color: white;
+  transition: opacity 0.2s, transform 0.1s;
+}
+
+button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+button:hover:not(:disabled) {
+  opacity: 0.85;
+}
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #534ab7;
+  color: #534ab7;
+  flex: 0 0 auto;
+  padding: 14px 18px;
+}
+
+.preview {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.preview h2 {
+  font-size: 15px;
+  color: #3c3489;
+  text-align: center;
+}
+
+/* --- Before/after slider --- */
+.compare-box {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: 20px;
+  overflow: hidden;
+  cursor: ew-resize;
+  user-select: none;
+  touch-action: none;
+  background: #1a1a2e;
+}
+
+/* After image — full size, sits at the bottom */
+.compare-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Before wrap — clips the before image from the left */
+.before-wrap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Before image — same full size as after, just clipped by wrap */
+.before-wrap img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.divider {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 3px;
+  height: 100%;
+  background: white;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.handle {
+  background: white;
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  color: #534ab7;
+}
+
+.label-before,
+.label-after {
+  position: absolute;
+  bottom: 12px;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  z-index: 3;
+}
+
+.label-before {
+  left: 12px;
+}
+.label-after {
+  right: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.status {
+  text-align: center;
+  font-size: 14px;
+  color: #890924;
+  min-height: 20px;
+  font-weight: 500;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
