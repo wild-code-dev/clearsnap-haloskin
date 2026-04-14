@@ -68,6 +68,7 @@ async function takePhoto() {
   ctx.drawImage(video, 0, 0);
 
   const originalDataUrl = canvas.toDataURL("image/jpeg");
+  const imageBase64 = originalDataUrl.split(",")[1];
 
   document.querySelector(".camera-box").classList.add("hidden");
   document.querySelector(".controls").classList.add("hidden");
@@ -75,32 +76,18 @@ async function takePhoto() {
   setStatus("Uploading photo... ⏳");
 
   try {
-    const blob = await new Promise((resolve) =>
-      canvas.toBlob(resolve, "image/jpeg")
-    );
-    const formData = new FormData();
-    formData.append("file", blob);
-    formData.append("upload_preset", "clearsnap_preset");
+    setStatus("Gemini AI is retouching your skin... ✨");
+    const res = await fetch("/api/retouch", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ imageBase64 }),
+    });
 
-    setStatus("AI is retouching your skin... ✨");
-    const res = await fetch(UPLOAD_URL, { method: "POST", body: formData });
     const data = await res.json();
 
-    if (data.secure_url) {
-      const publicId = data.public_id;
-      const transforms =
-        "e_improve:60,e_sharpen:50,e_brightness:10,e_saturation:15";
-      const retouchedUrl =
-        "https://res.cloudinary.com/" +
-        CLOUD_NAME +
-        "/image/upload/" +
-        transforms +
-        "/" +
-        publicId +
-        ".jpg";
-      console.log("Retouched URL:", retouchedUrl);
+    if (data.imageBase64) {
+      const retouchedUrl = `data:${data.mimeType};base64,${data.imageBase64}`;
 
-      // After sits behind, full size
       afterImg.src = retouchedUrl;
       afterImg.style.transform = "scaleX(-1)";
       afterImg.style.position = "absolute";
@@ -110,27 +97,24 @@ async function takePhoto() {
       afterImg.style.height = "100%";
       afterImg.style.objectFit = "cover";
 
-      // Before sits on top inside clipping wrap
       beforeImg.src = originalDataUrl;
       beforeImg.style.transform = "scaleX(-1)";
       beforeImg.style.width = compareBox.offsetWidth + "px";
       beforeImg.style.height = "100%";
       beforeImg.style.objectFit = "cover";
 
-      // Wait for after image to load then reset slider
       afterImg.onload = () => {
         setSlider(50);
         document.getElementById("downloadBtn").disabled = false;
       };
 
-      // Reset slider to 50% when new photo loads
-      setSlider(50);
-      setStatus("Drag the slider to compare! 👆");
+      setStatus("Done! Drag to compare 👆");
     } else {
-      setStatus("Upload failed. Check your Cloudinary preset.");
+      setStatus("Retouching failed. Try again!");
     }
-  } catch {
+  } catch (err) {
     setStatus("Something went wrong. Try again!");
+    console.error(err);
   }
 }
 
