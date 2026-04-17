@@ -1,4 +1,4 @@
-const { GoogleGenAI } = require('@google/genai');
+const { GoogleGenAI } = require("@google/genai");
 
 module.exports.config = {
   api: {
@@ -19,7 +19,7 @@ module.exports.default = async function handler(req, res) {
     const { imageBase64 } = req.body;
 
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash-preview-image-generation',
+      model: "gemini-2.5-flash-preview-image-generation",
       contents: [
         {
           parts: [
@@ -55,4 +55,4 @@ module.exports.default = async function handler(req, res) {
     console.error(err);
     res.status(500).json({ error: err.message });
   }
-}
+};
