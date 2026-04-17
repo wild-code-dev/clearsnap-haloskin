@@ -1,6 +1,7 @@
 {
   "name": "clearsnap",
   "version": "1.0.0",
+  "type": "module",
   "dependencies": {
     "@google/genai": "^1.0.0"
   }
