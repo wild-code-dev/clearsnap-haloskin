@@ -1,4 +1,5 @@
-const { VertexAI } = require("@google-cloud/vertexai");
+import { GoogleGenAI } from "@google/genai";
+
 export const config = {
   api: {
     bodyParser: {
@@ -13,25 +14,14 @@ export default async function handler(req, res) {
   }
 
   try {
-    const credentials = JSON.parse(process.env.GOOGLE_CREDENTIALS);
-    const project = process.env.GOOGLE_CLOUD_PROJECT;
-
-    const vertexAI = new VertexAI({
-      project,
-      location: "us-central1",
-      googleAuthOptions: { credentials },
-    });
-
-    const model = vertexAI.getGenerativeModel({
-      model: "gemini-2.5-flash-image",
-    });
+    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
     const { imageBase64 } = req.body;
 
-    const result = await model.generateContent({
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-exp-image-generation",
       contents: [
         {
-          role: "user",
           parts: [
             {
               inlineData: {
@@ -45,12 +35,12 @@ export default async function handler(req, res) {
           ],
         },
       ],
-      generationConfig: {
+      config: {
         responseModalities: ["IMAGE", "TEXT"],
       },
     });
 
-    const parts = result.response.candidates[0].content.parts;
+    const parts = response.candidates[0].content.parts;
     const imagePart = parts.find((p) => p.inlineData);
 
     if (imagePart) {
