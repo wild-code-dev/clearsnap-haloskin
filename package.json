@@ -2,6 +2,6 @@
   "name": "clearsnap",
   "version": "1.0.0",
   "dependencies": {
-    "@google-cloud/vertexai": "^1.1.0"
+    "@google/genai": "^0.7.0"
   }
 }
