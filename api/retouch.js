@@ -19,7 +19,7 @@ module.exports.default = async function handler(req, res) {
     const { imageBase64 } = req.body;
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash-preview-image-generation",
+      model: "gemini-3.1-flash-image-preview",
       contents: [
         {
           parts: [
